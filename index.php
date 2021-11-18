@@ -128,8 +128,8 @@
                 <div class="row">
                   <div class="col-5">
                     <div class="header-composition">
-                      <h1 class="h1">Все для вашего авто<br />по выгодным ценам<br />в Москве</h1>
-                      <p>Бампера, габаритные товары, автозапчасти, автохимия и многое другое</p>
+                      <h1 class="h1"><?php the_title();?></h1>
+                      <?php the_content();?> 
                       <a href="#contact" id="header-button" class="button">ОСТАВИТЬ ЗАЯВКУ</a>
                     </div>
                   </div>
@@ -179,80 +179,40 @@
             Все поставщики тщательно отобраны и проверены временем,<br />что полностью исключает риск приобретения
             контрафакта.
           </p>
+
           <div class="container services-container">
             <div class="row services-row">
-              <div class="col-lg-3 col-md-4 col-6 item">
-                <div class="services-item">
-                  <div class="img-container">
-                    <div class="services-callback"></div>
-                    <div class="img"></div>
-                  </div>
-                  <p>масла и фильтры (бесплатная замена)</p>
-                </div>
-              </div>
-              <div class="col-lg-3 col-md-4 col-6 item">
-                <div class="services-item">
-                  <div class="img-container">
-                    <div class="services-callback"></div>
-                    <div class="img"></div>
-                  </div>
-                  <p>автозапчасти для иномарок</p>
-                </div>
-              </div>
-              <div class="col-lg-3 col-md-4 col-6 item">
-                <div class="services-item">
-                  <div class="img-container">
-                    <div class="services-callback"></div>
-                    <div class="img"></div>
-                  </div>
-                  <p>автохимия, присадки, антифризы</p>
-                </div>
-              </div>
-              <div class="col-lg-3 col-md-4 col-6 item">
-                <div class="services-item">
-                  <div class="img-container">
-                    <div class="services-callback"></div>
-                    <div class="img"></div>
-                  </div>
-                  <p>трансмиссионные масла</p>
-                </div>
-              </div>
-              <div class="col-lg-3 col-md-4 col-6 item">
-                <div class="services-item">
-                  <div class="img-container">
-                    <div class="services-callback"></div>
-                    <div class="img"></div>
-                  </div>
-                  <p>масла и фильтры (бесплатная замена)</p>
-                </div>
-              </div>
-              <div class="col-lg-3 col-md-4 col-6 item">
-                <div class="services-item">
-                  <div class="img-container">
-                    <div class="services-callback"></div>
-                    <div class="img"></div>
-                  </div>
-                  <p>автозапчасти для иномарок</p>
-                </div>
-              </div>
-              <div class="col-lg-3 col-md-4 col-6 item">
-                <div class="services-item">
-                  <div class="img-container">
-                    <div class="services-callback"></div>
-                    <div class="img"></div>
-                  </div>
-                  <p>автохимия, присадки, антифризы</p>
-                </div>
-              </div>
-              <div class="col-lg-3 col-md-4 col-6 item">
-                <div class="services-item">
-                  <div class="img-container">
-                    <div class="services-callback"></div>
-                    <div class="img"></div>
-                  </div>
-                  <p>трансмиссионные масла</p>
-                </div>
-              </div>
+
+            <?php		
+              global $post;
+
+              $query = new WP_Query( [
+                'posts_per_page' => 5,
+                'category_name'  => 'uslugi',
+              ] );
+
+              if ( $query->have_posts() ) {
+                while ( $query->have_posts() ) {
+                  $query->the_post();
+                  ?>
+                   <div class="col-lg-3 col-md-4 col-6 item">
+                      <div class="services-item">
+                        <div class="img-container">
+                          <div class="services-callback"></div>
+                          <div class="img" style="background-image: url(<?php the_field("services_image");?>); background-repeat: no repeat; background-size: cover;"></div>
+                        </div>
+                        <p><?php the_title();?></p>
+                      </div>
+                    </div>
+                  <?php 
+                }
+              } else {
+                // Постов не найдено
+              }
+
+              wp_reset_postdata(); // Сбрасываем $post
+              ?>
+
             </div>
           </div>
         </div>
@@ -262,19 +222,11 @@
         <div class="container about-container">
           <div class="row">
             <div class="col-md-7 col-12">
-              <h2 class="h2">О НАШЕЙ КОМПАНИИ</h2>
-              <p>
-                Наша компания уже более 10 лет работает на рынке города и области! У нас работают ПРОФЕССИОНАЛЫ
-                высочайшего класса, которые смогут воплотить практически любую Вашу задумку в жизнь. Проводим
-                предварительную консультацию.
-              </p>
-              <p>
-                Наши цены весьма гибкие и лояльные, мы предлагаем различные сезонные акции, во время которых Вы можете
-                получить скидку.
-              </p>
+              <h2 class="h2"><?php the_field("information");?></h2>
+              <?php the_field("information_text");?>
             </div>
             <div class="col-md-5 col-12 img-col">
-              <img src="<?php echo get_template_directory_uri()?>/img/about.png" alt="Наш магазин" />
+              <img src="<?php the_field("information_image");?>" alt="Наш магазин" />
             </div>
           </div>
         </div>
